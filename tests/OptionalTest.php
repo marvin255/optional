@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Marvin255\Optional\Tests;
 
+use InvalidArgumentException;
 use Marvin255\Optional\NoSuchElementException;
 use Marvin255\Optional\Optional;
 use RuntimeException;
@@ -19,6 +20,12 @@ class OptionalTest extends BaseCase
         $optional = Optional::of('test');
 
         $this->assertInstanceOf(Optional::class, $optional);
+    }
+
+    public function testOfWithNull(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Optional::of(null);
     }
 
     public function testEmpty(): void

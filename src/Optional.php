@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Marvin255\Optional;
 
+use InvalidArgumentException;
 use Throwable;
 
 /**
@@ -34,13 +35,15 @@ class Optional
     /**
      * Returns an Optional with the specified present non-null value.
      *
+     * @throws InvalidArgumentException
+     *
      * @psalm-template T
      * @psalm-param T $data
      * @psalm-return (
-     *     T is string ? Optional<string> : (
-     *         T is int ? Optional<int> : (
-     *             T is bool ? Optional<bool> : (
-     *                 T is float ? Optional<float> : Optional<T>
+     *     T is string ? self<string> : (
+     *         T is int ? self<int> : (
+     *             T is bool ? self<bool> : (
+     *                 T is float ? self<float> : self<T>
      *             )
      *         )
      *     )
@@ -48,6 +51,10 @@ class Optional
      */
     public static function of(mixed $data): self
     {
+        if ($data === null) {
+            throw new InvalidArgumentException("Value can't be null");
+        }
+
         return new self($data, true);
     }
 
