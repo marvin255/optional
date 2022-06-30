@@ -67,6 +67,26 @@ class Optional
     }
 
     /**
+     * Returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.
+     *
+     * @psalm-template T
+     * @psalm-param T $data
+     * @psalm-return (
+     *     T is string ? self<string> : (
+     *         T is int ? self<int> : (
+     *             T is bool ? self<bool> : (
+     *                 T is float ? self<float> : self<T>
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public static function ofNullable(mixed $data): self
+    {
+        return $data === null ? self::empty() : self::of($data);
+    }
+
+    /**
      * If a value is present, and the value matches the given predicate,
      * return an Optional describing the value, otherwise return an empty Optional.
      *
