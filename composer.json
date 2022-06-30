@@ -1,0 +1,48 @@
+{
+  "name": "marvin255/optional",
+  "type": "library",
+  "description": "Optional container for PHP.",
+  "keywords": ["php", "optional"],
+  "license": "MIT",
+  "require": {
+    "php": ">=8.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "sebastian/phpcpd": "^6.0",
+    "vimeo/psalm": "^4.0",
+    "infection/infection": "^0.26.13"
+  },
+  "autoload": {
+    "psr-4": {
+      "Marvin255\\Optional\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Marvin255\\Optional\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "vendor/bin/phpunit --configuration phpunit.xml.dist"
+    ],
+    "coverage": [
+      "vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-html=tests/coverage"
+    ],
+    "fixer": [
+      "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -v --allow-risky=yes"
+    ],
+    "linter": [
+        "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php -vv --dry-run --stop-on-violation --allow-risky=yes",
+        "vendor/bin/phpcpd ./ --exclude vendor --exclude docker",
+        "vendor/bin/psalm --show-info=true --php-version=$(php -r \"echo phpversion();\")"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "infection/extension-installer": false
+    }
+  }
+}
