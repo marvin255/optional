@@ -36,7 +36,15 @@ class Optional
      *
      * @psalm-template T
      * @psalm-param T $data
-     * @psalm-return (T is string ? Optional<string> : (T is int ? Optional<int> : Optional<T>))
+     * @psalm-return (
+     *     T is string ? Optional<string> : (
+     *         T is int ? Optional<int> : (
+     *             T is bool ? Optional<bool> : (
+     *                 T is float ? Optional<float> : Optional<T>
+     *             )
+     *         )
+     *     )
+     * )
      */
     public static function of(mixed $data): self
     {

@@ -117,8 +117,8 @@ class OptionalTest extends BaseCase
 
     public function testNotOrElse(): void
     {
-        $value = 1;
-        $other = 2;
+        $value = 1.1;
+        $other = 2.2;
 
         $result = Optional::of($value)->orElse($other);
 
