@@ -35,6 +35,22 @@ class OptionalTest extends BaseCase
         $this->assertInstanceOf(Optional::class, $optional);
     }
 
+    public function testOfNullable(): void
+    {
+        $optional = Optional::ofNullable(null);
+
+        $this->assertFalse($optional->isPresent());
+    }
+
+    public function testOfNullableNotNull(): void
+    {
+        $value = 'qwe';
+        $optional = Optional::ofNullable($value);
+
+        $this->assertTrue($optional->isPresent());
+        $this->assertSame($value, $optional->get());
+    }
+
     public function testGet(): void
     {
         $value = 'test';
