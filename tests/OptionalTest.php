@@ -6,6 +6,8 @@ namespace Marvin255\Optional\Tests;
 
 use Marvin255\Optional\NoSuchElementException;
 use Marvin255\Optional\Optional;
+use RuntimeException;
+use Throwable;
 
 /**
  * @internal
@@ -119,6 +121,40 @@ class OptionalTest extends BaseCase
         $other = 2;
 
         $result = Optional::of($value)->orElse($other);
+
+        $this->assertSame($value, $result);
+    }
+
+    public function testOrElseGet(): void
+    {
+        $other = 'other';
+
+        $result = Optional::empty()->orElseGet(fn (): string => $other);
+
+        $this->assertSame($other, $result);
+    }
+
+    public function testNotOrElseGet(): void
+    {
+        $value = 'value';
+        $other = 'other';
+
+        $result = Optional::of($value)->orElseGet(fn (): string => $other);
+
+        $this->assertSame($value, $result);
+    }
+
+    public function testOrElseThrow(): void
+    {
+        $this->expectException(RuntimeException::class);
+        Optional::empty()->orElseThrow(fn (): Throwable => new RuntimeException());
+    }
+
+    public function testOrElseNotThrow(): void
+    {
+        $value = 'value';
+
+        $result = Optional::of($value)->orElseThrow(fn (): Throwable => new RuntimeException());
 
         $this->assertSame($value, $result);
     }
