@@ -13,7 +13,7 @@ use Throwable;
  *
  * @psalm-template TNested
  */
-class Optional
+final class Optional
 {
     /**
      * @psalm-var TNested
