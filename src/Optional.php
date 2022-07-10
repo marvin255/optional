@@ -11,20 +11,23 @@ use Throwable;
  * A container object which may or may not contain a non-null value.
  * If a value is present, isPresent() will return true and get() will return the value.
  *
- * @psalm-template TNested
+ * @template TNested
  */
 final class Optional
 {
     /**
-     * @psalm-var TNested
+     * @var TNested
      */
     private readonly mixed $data;
 
+    /**
+     * @var bool
+     */
     private readonly bool $isPresent;
 
     /**
-     * @psalm-param TNested $data
-     * @psalm-param bool $isPresent
+     * @param TNested $data
+     * @param bool    $isPresent
      */
     private function __construct(mixed $data, bool $isPresent)
     {
@@ -35,10 +38,14 @@ final class Optional
     /**
      * Returns an Optional with the specified present non-null value.
      *
+     * @template T
+     *
+     * @param T $data
+     *
+     * @return self<T>
+     *
      * @throws InvalidArgumentException
      *
-     * @psalm-template T
-     * @psalm-param T $data
      * @psalm-return (
      *     T is string ? self<string> : (
      *         T is int ? self<int> : (
@@ -60,6 +67,8 @@ final class Optional
 
     /**
      * Returns an empty Optional instance.
+     *
+     * @return self
      */
     public static function empty(): self
     {
@@ -69,8 +78,12 @@ final class Optional
     /**
      * Returns an Optional describing the specified value, if non-null, otherwise returns an empty Optional.
      *
-     * @psalm-template T
-     * @psalm-param T $data
+     * @template T
+     *
+     * @param T $data
+     *
+     * @return self<T>
+     *
      * @psalm-return (
      *     T is string ? self<string> : (
      *         T is int ? self<int> : (
@@ -90,8 +103,11 @@ final class Optional
      * If a value is present, and the value matches the given predicate,
      * return an Optional describing the value, otherwise return an empty Optional.
      *
+     * @param callable $filter
+     *
+     * @return self<TNested>
+     *
      * @psalm-param callable(TNested): bool $filter
-     * @psalm-return Optional<TNested>
      */
     public function filter(callable $filter): self
     {
@@ -105,9 +121,9 @@ final class Optional
     /**
      * If a value is present in this Optional, returns the value, otherwise throws NoSuchElementException.
      *
-     * @throws NoSuchElementException
+     * @return TNested
      *
-     * @psalm-return TNested
+     * @throws NoSuchElementException
      */
     public function get(): mixed
     {
@@ -120,6 +136,8 @@ final class Optional
 
     /**
      * Return true if there is a value present, otherwise false.
+     *
+     * @return bool
      */
     public function isPresent(): bool
     {
@@ -128,6 +146,8 @@ final class Optional
 
     /**
      * If a value is present, invoke the specified consumer with the value, otherwise do nothing.
+     *
+     * @param callable $consumer
      *
      * @psalm-param callable(TNested): void $consumer
      */
@@ -141,8 +161,9 @@ final class Optional
     /**
      * Return the value if present, otherwise return other.
      *
-     * @psalm-param TNested $other
-     * @psalm-return TNested
+     * @param TNested $other
+     *
+     * @return TNested
      */
     public function orElse(mixed $other): mixed
     {
@@ -152,8 +173,11 @@ final class Optional
     /**
      * Return the value if present, otherwise invoke other and return the result of that invocation.
      *
+     * @param callable $other
+     *
+     * @return TNested
+     *
      * @psalm-param callable(): TNested $other
-     * @psalm-return TNested
      */
     public function orElseGet(callable $other): mixed
     {
@@ -163,10 +187,13 @@ final class Optional
     /**
      * Return the contained value, if present, otherwise throw an exception to be created by the provided supplier.
      *
+     * @param callable $exceptionSupplier
+     *
+     * @return TNested
+     *
      * @throws Throwable
      *
      * @psalm-param callable(): Throwable $exceptionSupplier
-     * @psalm-return TNested
      */
     public function orElseThrow(callable $exceptionSupplier): mixed
     {
