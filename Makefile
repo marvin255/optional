@@ -3,7 +3,7 @@
 user_id := $(shell id -u)
 docker_compose_bin := $(shell command -v docker-compose 2> /dev/null) --file "docker/docker-compose.yml"
 php_container_bin := $(docker_compose_bin) run --rm -u "$(user_id)" "php"
-php_composer_script := $(php_container_bin) composer run-script
+composer_bin := $(php_container_bin) composer run-script
 
 .DEFAULT_GOAL := build
 
@@ -19,16 +19,22 @@ shell: ## Runs shell in container
 	$(php_container_bin) bash
 
 fixer: ## Run fixer to fix code style
-	$(php_composer_script) fixer
+	$(composer_bin) fixer
 
 linter: ## Run linter to check project
-	$(php_composer_script) linter
+	$(composer_bin) linter
 
 test: ## Run tests
-	$(php_composer_script) test
+	$(composer_bin) test
 
 coverage: ## Run tests with coverage
-	$(php_composer_script) coverage
+	$(composer_bin) coverage
 
 infection: ## Run infection testing
-	$(php_composer_script) infection
+	$(composer_bin) infection
+
+release: ## Run all preparations before release
+	$(composer_bin) fixer
+	$(composer_bin) linter
+	$(composer_bin) test
+	$(composer_bin) infection
