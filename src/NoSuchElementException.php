@@ -9,6 +9,6 @@ use Exception;
 /**
  * Exception that will be thrown if optional doesn't content the value.
  */
-class NoSuchElementException extends Exception
+class NoSuchElementException extends \Exception
 {
 }
