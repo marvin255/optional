@@ -4,11 +4,8 @@ declare(strict_types=1);
 
 namespace Marvin255\Optional\Tests;
 
-use InvalidArgumentException;
 use Marvin255\Optional\NoSuchElementException;
 use Marvin255\Optional\Optional;
-use RuntimeException;
-use Throwable;
 
 /**
  * @internal
@@ -24,7 +21,7 @@ class OptionalTest extends BaseCase
 
     public function testOfWithNull(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         Optional::of(null);
     }
 
@@ -169,15 +166,15 @@ class OptionalTest extends BaseCase
 
     public function testOrElseThrow(): void
     {
-        $this->expectException(RuntimeException::class);
-        Optional::empty()->orElseThrow(fn (): Throwable => new RuntimeException());
+        $this->expectException(\RuntimeException::class);
+        Optional::empty()->orElseThrow(fn (): \Throwable => new \RuntimeException());
     }
 
     public function testOrElseNotThrow(): void
     {
         $value = 'value';
 
-        $result = Optional::of($value)->orElseThrow(fn (): Throwable => new RuntimeException());
+        $result = Optional::of($value)->orElseThrow(fn (): \Throwable => new \RuntimeException());
 
         $this->assertSame($value, $result);
     }

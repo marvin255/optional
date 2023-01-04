@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Marvin255\Optional;
 
-use InvalidArgumentException;
 use Throwable;
 
 /**
@@ -44,7 +43,7 @@ final class Optional
      *
      * @return self<T>
      *
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      *
      * @psalm-return (
      *     T is string ? self<string> : (
@@ -59,7 +58,7 @@ final class Optional
     public static function of(mixed $data): self
     {
         if ($data === null) {
-            throw new InvalidArgumentException("Value can't be null");
+            throw new \InvalidArgumentException("Value can't be null");
         }
 
         return new self($data, true);
@@ -191,7 +190,7 @@ final class Optional
      *
      * @return TNested
      *
-     * @throws Throwable
+     * @throws \Throwable
      *
      * @psalm-param callable(): Throwable $exceptionSupplier
      */
