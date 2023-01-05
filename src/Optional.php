@@ -44,16 +44,6 @@ final class Optional
      * @return self<T>
      *
      * @throws \InvalidArgumentException
-     *
-     * @psalm-return (
-     *     T is string ? self<string> : (
-     *         T is int ? self<int> : (
-     *             T is bool ? self<bool> : (
-     *                 T is float ? self<float> : self<T>
-     *             )
-     *         )
-     *     )
-     * )
      */
     public static function of(mixed $data): self
     {
@@ -82,16 +72,6 @@ final class Optional
      * @param T $data
      *
      * @return self<T>
-     *
-     * @psalm-return (
-     *     T is string ? self<string> : (
-     *         T is int ? self<int> : (
-     *             T is bool ? self<bool> : (
-     *                 T is float ? self<float> : self<T>
-     *             )
-     *         )
-     *     )
-     * )
      */
     public static function ofNullable(mixed $data): self
     {
