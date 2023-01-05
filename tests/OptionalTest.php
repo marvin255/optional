@@ -137,7 +137,9 @@ class OptionalTest extends BaseCase
 
     public function testNotOrElse(): void
     {
+        /** @var float */
         $value = 1.1;
+        /** @var float */
         $other = 2.2;
 
         $result = Optional::of($value)->orElse($other);
@@ -156,7 +158,9 @@ class OptionalTest extends BaseCase
 
     public function testNotOrElseGet(): void
     {
+        /** @var string */
         $value = 'value';
+        /** @var string */
         $other = 'other';
 
         $result = Optional::of($value)->orElseGet(fn (): string => $other);
@@ -172,6 +176,7 @@ class OptionalTest extends BaseCase
 
     public function testOrElseNotThrow(): void
     {
+        /** @var string */
         $value = 'value';
 
         $result = Optional::of($value)->orElseThrow(fn (): \Throwable => new \RuntimeException());
