@@ -23,6 +23,10 @@
                 <directory name="./tests"/>
             </errorLevel>
         </UnusedClass>
-        <MixedAssignment errorLevel="suppress" />
+        <MixedAssignment>
+            <errorLevel type="suppress">
+                <directory name="./tests"/>
+            </errorLevel>
+        </MixedAssignment>
     </issueHandlers>
 </psalm>
