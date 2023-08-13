@@ -35,26 +35,39 @@ class OptionalTest extends BaseCase
     public function testOfNullable(): void
     {
         $optional = Optional::ofNullable(null);
+        $res = $optional->isPresent();
 
-        $this->assertFalse($optional->isPresent());
+        $this->assertFalse($res);
     }
 
     public function testOfNullableNotNull(): void
     {
+        /** @var string */
         $value = 'qwe';
         $optional = Optional::ofNullable($value);
+        $isPresent = $optional->isPresent();
+        $res = $optional->get();
 
-        $this->assertTrue($optional->isPresent());
-        $this->assertSame($value, $optional->get());
+        $this->assertTrue(
+            $isPresent,
+            'optional with data must return true from isPresent'
+        );
+        $this->assertSame(
+            $value,
+            $res,
+            'optional must return contained value'
+        );
     }
 
     public function testGet(): void
     {
+        /** @var string */
         $value = 'test';
 
         $optional = Optional::of($value);
+        $res = $optional->get();
 
-        $this->assertSame($value, $optional->get());
+        $this->assertSame($value, $res);
     }
 
     public function testGetNoValueException(): void
@@ -70,60 +83,75 @@ class OptionalTest extends BaseCase
         $value = 'test';
 
         $optional = Optional::of($value);
+        $res = $optional->isPresent();
 
-        $this->assertTrue($optional->isPresent());
+        $this->assertTrue($res);
     }
 
     public function testIsNotPresent(): void
     {
         $optional = Optional::empty();
+        $res = $optional->isPresent();
 
-        $this->assertFalse($optional->isPresent());
+        $this->assertFalse($res);
     }
 
-    public function testFilterOk(): void
+    public function testFilterKeep(): void
     {
+        /** @var string */
         $value = 'qwe';
+        $callback = fn (string $item): bool => $item === $value;
 
-        $optional = Optional::of($value)->filter(fn (string $item) => $item === $value);
+        $optional = Optional::of($value)->filter($callback);
+        $isPresent = $optional->isPresent();
+        $res = $optional->get();
 
-        $this->assertTrue($optional->isPresent());
-        $this->assertSame($value, $optional->get());
+        $this->assertTrue(
+            $isPresent,
+            'filter must keep items by condition'
+        );
+        $this->assertSame(
+            $value,
+            $res,
+            'optional after filtering must return kept item'
+        );
     }
 
-    public function testFilterNotOk(): void
+    public function testFilterRemove(): void
     {
         $value = 'qweqwe';
+        $callback = fn (string $item): bool => $item !== $value;
 
-        $optional = Optional::of($value)->filter(fn (string $item) => $item !== $value);
+        $optional = Optional::of($value)->filter($callback);
+        $res = $optional->isPresent();
 
-        $this->assertFalse($optional->isPresent());
+        $this->assertFalse($res);
     }
 
     public function testIfPresent(): void
     {
-        $res = false;
+        /** @var string */
+        $value = 'qwe';
+        $res = null;
+        $callback = function (string $item) use (&$res): void {
+            $res = $item;
+        };
 
-        Optional::of('qwe')->ifPresent(
-            function (string $item) use (&$res): void {
-                $res = $item === 'qwe';
-            }
-        );
+        Optional::of($value)->ifPresent($callback);
 
-        $this->assertTrue($res);
+        $this->assertSame($value, $res);
     }
 
     public function testIfNotPresent(): void
     {
-        $res = false;
+        $res = null;
+        $callback = function (mixed $item) use (&$res): void {
+            $res = $item;
+        };
 
-        Optional::empty()->ifPresent(
-            function (mixed $item) use (&$res): void {
-                $res = true;
-            }
-        );
+        Optional::empty()->ifPresent($callback);
 
-        $this->assertFalse($res);
+        $this->assertNull($res);
     }
 
     public function testOrElse(): void
@@ -150,8 +178,9 @@ class OptionalTest extends BaseCase
     public function testOrElseGet(): void
     {
         $other = 'other';
+        $callback = fn (): string => $other;
 
-        $result = Optional::empty()->orElseGet(fn (): string => $other);
+        $result = Optional::empty()->orElseGet($callback);
 
         $this->assertSame($other, $result);
     }
@@ -162,24 +191,28 @@ class OptionalTest extends BaseCase
         $value = 'value';
         /** @var string */
         $other = 'other';
+        $callback = fn (): string => $other;
 
-        $result = Optional::of($value)->orElseGet(fn (): string => $other);
+        $result = Optional::of($value)->orElseGet($callback);
 
         $this->assertSame($value, $result);
     }
 
     public function testOrElseThrow(): void
     {
+        $callback = fn (): \Throwable => new \RuntimeException();
+
         $this->expectException(\RuntimeException::class);
-        Optional::empty()->orElseThrow(fn (): \Throwable => new \RuntimeException());
+        Optional::empty()->orElseThrow($callback);
     }
 
     public function testOrElseNotThrow(): void
     {
         /** @var string */
         $value = 'value';
+        $callback = fn (): \Throwable => new \RuntimeException();
 
-        $result = Optional::of($value)->orElseThrow(fn (): \Throwable => new \RuntimeException());
+        $result = Optional::of($value)->orElseThrow($callback);
 
         $this->assertSame($value, $result);
     }

@@ -11,27 +11,16 @@ use Throwable;
  * If a value is present, isPresent() will return true and get() will return the value.
  *
  * @template TNested
+ *
+ * @psalm-api
  */
 final class Optional
 {
-    /**
-     * @var TNested
-     */
-    private readonly mixed $data;
-
-    /**
-     * @var bool
-     */
-    private readonly bool $isPresent;
-
-    /**
-     * @param TNested $data
-     * @param bool    $isPresent
-     */
-    private function __construct(mixed $data, bool $isPresent)
-    {
-        $this->data = $data;
-        $this->isPresent = $isPresent;
+    private function __construct(
+        /** @var TNested $data */
+        private readonly mixed $data,
+        private readonly bool $isPresent
+    ) {
     }
 
     /**
@@ -56,8 +45,6 @@ final class Optional
 
     /**
      * Returns an empty Optional instance.
-     *
-     * @return self
      */
     public static function empty(): self
     {
@@ -81,8 +68,6 @@ final class Optional
     /**
      * If a value is present, and the value matches the given predicate,
      * return an Optional describing the value, otherwise return an empty Optional.
-     *
-     * @param callable $filter
      *
      * @return self<TNested>
      *
@@ -115,8 +100,6 @@ final class Optional
 
     /**
      * Return true if there is a value present, otherwise false.
-     *
-     * @return bool
      */
     public function isPresent(): bool
     {
@@ -125,8 +108,6 @@ final class Optional
 
     /**
      * If a value is present, invoke the specified consumer with the value, otherwise do nothing.
-     *
-     * @param callable $consumer
      *
      * @psalm-param callable(TNested): void $consumer
      */
@@ -152,8 +133,6 @@ final class Optional
     /**
      * Return the value if present, otherwise invoke other and return the result of that invocation.
      *
-     * @param callable $other
-     *
      * @return TNested
      *
      * @psalm-param callable(): TNested $other
@@ -165,8 +144,6 @@ final class Optional
 
     /**
      * Return the contained value, if present, otherwise throw an exception to be created by the provided supplier.
-     *
-     * @param callable $exceptionSupplier
      *
      * @return TNested
      *

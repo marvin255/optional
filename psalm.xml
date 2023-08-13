@@ -4,6 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config file:///var/www/vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="true"
 >
     <projectFiles>
         <directory name="./src"/>
@@ -16,6 +18,15 @@
                 <directory name="./tests"/>
             </errorLevel>
         </PropertyNotSetInConstructor>
-        <MixedAssignment errorLevel="suppress" />
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="./tests"/>
+            </errorLevel>
+        </UnusedClass>
+        <MixedAssignment>
+            <errorLevel type="suppress">
+                <directory name="./tests"/>
+            </errorLevel>
+        </MixedAssignment>
     </issueHandlers>
 </psalm>
