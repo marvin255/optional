@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Marvin255\Optional;
 
-use Exception;
-
 /**
  * Exception that will be thrown if optional doesn't content the value.
+ *
+ * @psalm-api
  */
-class NoSuchElementException extends \Exception
+final class NoSuchElementException extends \Exception
 {
 }
