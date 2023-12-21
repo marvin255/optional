@@ -36,7 +36,7 @@ final class Optional
      */
     public static function of(mixed $data): self
     {
-        if ($data === null) {
+        if (null === $data) {
             throw new \InvalidArgumentException("Value can't be null");
         }
 
@@ -62,7 +62,7 @@ final class Optional
      */
     public static function ofNullable(mixed $data): self
     {
-        return $data === null ? self::empty() : self::of($data);
+        return null === $data ? self::empty() : self::of($data);
     }
 
     /**
