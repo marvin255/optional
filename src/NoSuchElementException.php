@@ -9,6 +9,6 @@ namespace Marvin255\Optional;
  *
  * @psalm-api
  */
-final class NoSuchElementException extends \Exception
+final class NoSuchElementException extends OptionalException
 {
 }

@@ -6,6 +6,7 @@ namespace Marvin255\Optional\Tests;
 
 use Marvin255\Optional\NoSuchElementException;
 use Marvin255\Optional\Optional;
+use Marvin255\Optional\OptionalException;
 
 /**
  * @internal
@@ -21,7 +22,7 @@ class OptionalTest extends BaseCase
 
     public function testOfWithNull(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(OptionalException::class);
         Optional::of(null);
     }
 
