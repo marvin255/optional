@@ -32,12 +32,12 @@ final class Optional
      *
      * @return self<T>
      *
-     * @throws \InvalidArgumentException
+     * @throws OptionalException
      */
     public static function of(mixed $data): self
     {
-        if ($data === null) {
-            throw new \InvalidArgumentException("Value can't be null");
+        if (null === $data) {
+            throw new OptionalException("Value can't be null");
         }
 
         return new self($data, true);
@@ -62,7 +62,7 @@ final class Optional
      */
     public static function ofNullable(mixed $data): self
     {
-        return $data === null ? self::empty() : self::of($data);
+        return null === $data ? self::empty() : self::of($data);
     }
 
     /**
