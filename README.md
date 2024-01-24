@@ -22,7 +22,7 @@ composer req marvin255/optional
 use Marvin255\Optional\Optional;
 
 $optional = Optional::of($input);
-if ($otional->isPresent()) {
+if ($optional->isPresent()) {
     $value = $optional->get();
     // do something
 }
@@ -33,5 +33,5 @@ With lambda
 ```php
 use Marvin255\Optional\Optional;
 
-Optional::of($input)->ifPresent(fn ($item): void {/* do something */});
+Optional::of($input)->ifPresent(function ($item): void {/* do something */});
 ```
