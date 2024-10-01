@@ -19,7 +19,7 @@ final class Optional
     private function __construct(
         /** @var TNested $data */
         private readonly mixed $data,
-        private readonly bool $isPresent
+        private readonly bool $isPresent,
     ) {
     }
 
