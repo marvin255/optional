@@ -11,7 +11,7 @@ use Marvin255\Optional\OptionalException;
 /**
  * @internal
  */
-class OptionalTest extends BaseCase
+final class OptionalTest extends BaseCase
 {
     public function testOf(): void
     {
