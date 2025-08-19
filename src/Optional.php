@@ -162,8 +162,7 @@ final class Optional
 
     /**
      * If a value is present, apply the provided mapping function to it,
-     * and if the result is non-null, return an Optional describing the result.
-     * Otherwise return an empty Optional.
+     * and return an Optional describing the result.
      *
      * @template TMapped
      *
