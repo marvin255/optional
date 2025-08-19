@@ -69,9 +69,9 @@ final class Optional
      * If a value is present, and the value matches the given predicate,
      * return an Optional describing the value, otherwise return an empty Optional.
      *
-     * @return self<TNested>
-     *
      * @psalm-param callable(TNested): bool $filter
+     *
+     * @return self<TNested>
      */
     public function filter(callable $filter): self
     {
@@ -133,9 +133,9 @@ final class Optional
     /**
      * Return the value if present, otherwise invoke other and return the result of that invocation.
      *
-     * @return TNested
-     *
      * @psalm-param callable(): TNested $other
+     *
+     * @return TNested
      */
     public function orElseGet(callable $other): mixed
     {
@@ -145,11 +145,11 @@ final class Optional
     /**
      * Return the contained value, if present, otherwise throw an exception to be created by the provided supplier.
      *
+     * @psalm-param callable(): Throwable $exceptionSupplier
+     *
      * @return TNested
      *
      * @throws \Throwable
-     *
-     * @psalm-param callable(): Throwable $exceptionSupplier
      */
     public function orElseThrow(callable $exceptionSupplier): mixed
     {
