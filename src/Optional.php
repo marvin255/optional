@@ -159,4 +159,24 @@ final class Optional
 
         throw \call_user_func($exceptionSupplier);
     }
+
+    /**
+     * If a value is present, apply the provided mapping function to it,
+     * and if the result is non-null, return an Optional describing the result.
+     * Otherwise return an empty Optional.
+     *
+     * @template TMapped
+     *
+     * @psalm-param callable(TNested): TMapped $mapper
+     *
+     * @return self<TMapped>
+     */
+    public function map(callable $mapper): mixed
+    {
+        if ($this->isPresent) {
+            return self::ofNullable(\call_user_func($mapper, $this->data));
+        }
+
+        return self::empty();
+    }
 }
