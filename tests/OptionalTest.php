@@ -145,14 +145,13 @@ final class OptionalTest extends BaseCase
 
     public function testIfNotPresent(): void
     {
-        $res = null;
-        $callback = function (mixed $item) use (&$res): void {
-            $res = $item;
+        $callback = function (): void {
+            throw new \RuntimeException('Callback should not be called');
         };
 
         Optional::empty()->ifPresent($callback);
 
-        $this->assertNull($res);
+        $this->assertTrue(true, 'ifPresent must not call callback if there is no value');
     }
 
     public function testOrElse(): void
@@ -216,5 +215,31 @@ final class OptionalTest extends BaseCase
         $result = Optional::of($value)->orElseThrow($callback);
 
         $this->assertSame($value, $result);
+    }
+
+    public function testMap(): void
+    {
+        /** @var string */
+        $value = 'value';
+        /** @var string */
+        $mapSuffix = 'map';
+        $expectedValue = $value . $mapSuffix;
+
+        $callback = fn (string $v): string => $v . $mapSuffix;
+
+        $result = Optional::of($value)->map($callback)->get();
+
+        $this->assertSame($expectedValue, $result);
+    }
+
+    public function testMapEmptyValue(): void
+    {
+        $callback = function (): void {
+            throw new \RuntimeException('Callback should not be called');
+        };
+
+        Optional::empty()->map($callback);
+
+        $this->assertTrue(true, 'map must not call callback if there is no value');
     }
 }
