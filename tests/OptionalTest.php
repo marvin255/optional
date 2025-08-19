@@ -145,14 +145,13 @@ final class OptionalTest extends BaseCase
 
     public function testIfNotPresent(): void
     {
-        $res = null;
-        $callback = function (mixed $item) use (&$res): void {
-            $res = $item;
+        $callback = function (): void {
+            throw new \RuntimeException('Callback should not be called');
         };
 
         Optional::empty()->ifPresent($callback);
 
-        $this->assertNull($res);
+        $this->assertTrue(true, 'ifPresent must not call callback if there is no value');
     }
 
     public function testOrElse(): void
